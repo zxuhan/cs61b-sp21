@@ -17,7 +17,7 @@ public class ArrayDeque<T> implements Deque<T> {
         size = 0;
         arr = (T[]) new Object[8];
         first = 0;
-        last = first;
+        last = capacity - 1;
     }
 
     @Override
@@ -26,15 +26,11 @@ public class ArrayDeque<T> implements Deque<T> {
             enlargeArray();
         }
 
-        if (size == 0) {
-            first = 0;
-            last = 0;
+
+        if (first == 0) {
+            first = capacity - 1;
         } else {
-            if (first == 0) {
-                first = capacity - 1;
-            } else {
-                first -= 1;
-            }
+            first -= 1;
         }
 
         arr[first] = item;
@@ -47,16 +43,12 @@ public class ArrayDeque<T> implements Deque<T> {
             enlargeArray();
         }
 
-        if (size == 0) {
-            first = 0;
+        if (last == capacity - 1) {
             last = 0;
         } else {
-            if (last == capacity - 1) {
-                last = 0;
-            } else {
-                last += 1;
-            }
+            last += 1;
         }
+
 
         arr[last] = item;
         size += 1;
@@ -195,7 +187,11 @@ public class ArrayDeque<T> implements Deque<T> {
 
     @Override
     public T get(int index) {
-        return arr[index];
+        if (size == 0 || index < 0 || index >= size) {
+            return null;
+        }
+
+        return arr[(first + index) % capacity];
     }
 
     @Override
@@ -233,35 +229,22 @@ public class ArrayDeque<T> implements Deque<T> {
     }
 
     private class ADequeIterator implements Iterator<T> {
-        private T[] simpleArray;
-        private Iterator<T> itr;
-        public ADequeIterator() {
-            simpleArray = (T[]) new Object[size];
-            if (first <= last) {
-                System.arraycopy(arr, first, simpleArray, 0, size);
-            } else {
-                int index = 0;
-                for (int i = first; i < capacity; i += 1) {
-                    simpleArray[index] = arr[i];
-                    index += 1;
-                }
+        private int index;
 
-                for (int i = 0; i <= last; i += 1) {
-                    simpleArray[index] = arr[i];
-                    index += 1;
-                }
-            }
-            itr = Arrays.stream(simpleArray).iterator();
+        public ADequeIterator() {
+            index = 0;
         }
 
         @Override
         public boolean hasNext() {
-            return itr.hasNext();
+            return index < size;
         }
 
         @Override
         public T next() {
-            return itr.next();
+            T item = get(index);
+            index += 1;
+            return item;
         }
     }
 }
