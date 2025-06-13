@@ -1,7 +1,6 @@
 package deque;
 
-import java.lang.reflect.Field;
-import java.util.Arrays;
+
 import java.util.Iterator;
 
 public class ArrayDeque<T> implements Deque<T> {
@@ -75,11 +74,6 @@ public class ArrayDeque<T> implements Deque<T> {
         first = 0;
         last = first + size - 1;
         capacity *= 2;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return size == 0;
     }
 
     @Override
