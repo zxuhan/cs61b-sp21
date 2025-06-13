@@ -102,7 +102,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
                 sb.append(" ");
             }
 
-            for (int i = 0; i <= last; i += 1 ) {
+            for (int i = 0; i <= last; i += 1) {
                 if (i == last) {
                     sb.append(arr[i]);
                 } else {
@@ -171,6 +171,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
             for (int i = 0; i <= last; i += 1) {
                 arrNew[index] = arr[i];
+                index += 1;
             }
         }
         arr = arrNew;
