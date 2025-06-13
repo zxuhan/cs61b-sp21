@@ -210,11 +210,8 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
             return false;
         }
 
-        Iterator<T> itrObj = obj.iterator();
-        Iterator<T> itrThis = iterator();
-
-        while (itrObj.hasNext() && itrThis.hasNext()) {
-            if (!itrObj.next().equals(itrThis.next())) {
+        for (int i = 0; i < size; i++) {
+            if (!this.get(i).equals(obj.get(i))) {
                 return false;
             }
         }
